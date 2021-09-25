@@ -2,7 +2,18 @@ const fs = require('fs');
 const showdown = require('showdown');
 const showdownHighlight = require("showdown-highlight");
 const https = require('https');
+const axios = require('axios')
 var xssFilter = require("xss");
+var MarkdownIt = require('markdown-it'),
+    md = new MarkdownIt();
+
+let {
+    generateHTMLPage
+} = require('./page');
+
+
+
+
 let converter = new showdown.Converter({
     tables: true,
     simpleLineBreaks: true,
@@ -25,11 +36,11 @@ https.get(url, (res) => {
     // The whole response has been received. Print out the result.
     res.on('end', () => {
         let html = xssFilter(converter.makeHtml(data));
+        let html2 = xssFilter(md.render(data))
         converter.setFlavor('github');
-        html = "<div class = markdown>" + html + "<\/div>"
 
 
-        fs.writeFile('htmlfile.html', html, function (err) {
+        fs.writeFile('htmlfile2.html', generateHTMLPage(html2), function (err) {
             if (err) throw err;
             console.log('Saved!');
         });
@@ -38,11 +49,6 @@ https.get(url, (res) => {
             console.log('Saved!');
         });
     });
-
-
-
-
-
 
 
 }).on("error", (err) => {
