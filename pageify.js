@@ -7,7 +7,6 @@ const converter = new showdown.Converter({
     tables: true,
     simpleLineBreaks: true,
     simplifiedAutoLink: true,
-    pre: true,
     extensions: [showdownHighlight({
         pre: true
     })]
