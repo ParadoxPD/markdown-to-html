@@ -212,11 +212,13 @@ h3 {
     transition-duration: 0.4s;
     transition: all 0.5s;
     border-radius: 10px;
-    border: #40454C60 solid 2px;
-    background-color: #20252C;
+    border: #111 solid 2px;
+    background-color: #ffffff88;
     width: 36px;
     height: 36px;
     overflow: hidden;
+    cursor: pointer;
+    pointer-events: none;
 }
 
 .copy-code-success-message {
@@ -235,7 +237,7 @@ h3 {
 
 .copy-code-button svg {
 
-    fill: #80858C99;
+    fill: #1118;
     position: absolute;
     top: 5%;
     left: 10%;
@@ -243,20 +245,22 @@ h3 {
 
 pre:hover .copy-code-button {
     display: inline-block;
-    background-color: #20252C;
+    background-color: white;
     color: #ffffffaa;
-    border: #40454C60 solid 2px;
+    border: #1118 solid 1px;
+    pointer-events: all;
 
 }
 
 .copy-code-button:hover {
 
-    background-color: #33393F !important;
-    border: #60656C solid 2px !important;
+    background-color: white !important;
+    border: #111d solid 1px !important;
+
 }
 
 
 
 .copy-code-button:hover svg {
-    fill: #b0b5bC !important;
+    fill: #111d !important;
 }

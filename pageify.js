@@ -12,7 +12,10 @@ const converter = new showdown.Converter({
     })]
 });
 
-
+const copyCodeSuccessColors = {
+    "dark": "#32CE55AA",
+    "light": "#3bc738"
+}
 
 
 function generateHTMLPage(markDownData, themeData) {
@@ -21,6 +24,7 @@ function generateHTMLPage(markDownData, themeData) {
     converter.setFlavor('github');
     let styleData;
     let pageTitle = "Hello";
+
 
     styleData = fs.readFileSync(__dirname + `/style-${themeData}.css`);
 
@@ -66,7 +70,7 @@ function generateHTMLPage(markDownData, themeData) {
                     });
 
                     function copyCode(event) {
-                        const color = "#32CE55AA";
+                        const color = "${copyCodeSuccessColors[themeData]}";
                         const codeBlock = event.parentElement;
                         let codeSnippet = codeBlock.querySelector('code').innerText;
                         console.log(codeSnippet);
