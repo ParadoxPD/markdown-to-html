@@ -1,34 +1,33 @@
-const fs = require('fs');
-const showdown = require('showdown');
+const fs = require("fs");
+const showdown = require("showdown");
 const showdownHighlight = require("showdown-highlight");
 const xssFilter = require("xss");
 
 const converter = new showdown.Converter({
-    tables: true,
-    simpleLineBreaks: true,
-    simplifiedAutoLink: true,
-    extensions: [showdownHighlight({
-        pre: true
-    })]
+  tables: true,
+  simpleLineBreaks: true,
+  simplifiedAutoLink: true,
+  extensions: [
+    showdownHighlight({
+      pre: true,
+    }),
+  ],
 });
 
 const copyCodeSuccessColors = {
-    "dark": "#32CE55AA",
-    "light": "#3bc738"
-}
-
+  dark: "#32CE55AA",
+  light: "#3bc738",
+};
 
 function generateHTMLPage(markDownData, themeData, title) {
+  let htmlData = xssFilter(converter.makeHtml(markDownData));
+  converter.setFlavor("github");
+  let styleData;
+  let pageTitle = title;
 
-    let htmlData = xssFilter(converter.makeHtml(markDownData));
-    converter.setFlavor('github');
-    let styleData;
-    let pageTitle = title;
+  styleData = fs.readFileSync(__dirname + `/style-${themeData}.css`);
 
-
-    styleData = fs.readFileSync(__dirname + `/style-${themeData}.css`);
-
-    let copyIcon = `
+  let copyIcon = `
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512" style="display: block;" transform="scale(0.65)">
                             <g>
                                 <g>
@@ -38,22 +37,31 @@ function generateHTMLPage(markDownData, themeData, title) {
                                 </g>
                             </g>
                         </svg>
-                    `
+                    `;
 
-    let preContent = `
+  let preContent =
+    `
             <html>
             <head>
-                <title>` + pageTitle + `</title>
+                <title>` +
+    pageTitle +
+    `</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/atom-one-dark.min.css" integrity="sha512-Jk4AqjWsdSzSWCSuQTfYRIF84Rq/eV0G2+tu07byYwHcbTGfdmLrHjUSwvzp5HvbiqK4ibmNwdcG49Y5RGYPTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js" integrity="sha512-gU7kztaQEl7SHJyraPfZLQCNnrKdaQi5ndOyt4L4UPL/FHDd/uB9Je6KDARIqwnNNE27hnqoWLBq+Kpe4iHfeQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                <script>hljs.highlightAll();</script>
             </head>
             <body>
             <h1 class="title">${pageTitle}</h1>
                 <div id='content'>
-            `
+            `;
 
-    let postContent = `
+  let postContent =
+    `
                 </div>
-                <style type='text/css'>` + styleData + `.title {
+                <style type='text/css'>` +
+    styleData +
+    `.title {
                     margin: 0px;
                     max-width: 900px;
                     padding: 10px 40px;
@@ -110,22 +118,17 @@ function generateHTMLPage(markDownData, themeData, title) {
             </body>
             </html>`;
 
-
-
-
-    return preContent + htmlData + postContent
-
+  return preContent + htmlData + postContent;
 }
 
-
 function generateDiv(markDownData, themeData) {
-    let htmlData = xssFilter(converter.makeHtml(markDownData));
-    converter.setFlavor('github');
-    let styleData;
+  let htmlData = xssFilter(converter.makeHtml(markDownData));
+  converter.setFlavor("github");
+  let styleData;
 
-    styleData = fs.readFileSync(__dirname + `/style-${themeData}.css`);
+  styleData = fs.readFileSync(__dirname + `/style-${themeData}.css`);
 
-    let copyIcon = `
+  let copyIcon = `
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512" style="display: block;" transform="scale(0.65)">
                             <g>
                                 <g>
@@ -135,16 +138,19 @@ function generateDiv(markDownData, themeData) {
                                 </g>
                             </g>
                         </svg>
-                    `
+                    `;
 
-    let preContent = `
+  let preContent = `
 
                 <div id='markdown' class='markdown-div'>
-            `
+            `;
 
-    let postContent = `
+  let postContent =
+    `
                 </div>
-                <style type='text/css'>` + styleData + `</style>
+                <style type='text/css'>` +
+    styleData +
+    `</style>
                 <script>
                     const codes = document.querySelectorAll("pre")
                     codes.forEach((codeBlock) => {
@@ -186,13 +192,10 @@ function generateDiv(markDownData, themeData) {
                 </script>
             `;
 
-
-
-
-    return preContent + htmlData + postContent
+  return preContent + htmlData + postContent;
 }
 
 module.exports = {
-    generateHTMLPage,
-    generateDiv
-}
+  generateHTMLPage,
+  generateDiv,
+};
