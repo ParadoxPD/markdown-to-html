@@ -1,8 +1,8 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
-const fs = require("fs");
-const PORT = 3000;
+// const fs = require("fs");
+const PORT = 5000;
 const { generateHTMLPage, generateDiv } = require("./pageify");
 
 app.use(
@@ -23,7 +23,7 @@ app.post("/", function (req, res) {
     resData = generateHTMLPage(markDownData, themeData, title);
   else if (typeData === "div") resData = generateDiv(markDownData, themeData);
   console.log(req.body.theme);
-  fs.writeFileSync("test.html", resData);
+  //   fs.writeFileSync("test.html", resData);
   res.send(resData);
 });
 
