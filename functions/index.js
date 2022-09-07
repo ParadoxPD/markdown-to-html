@@ -2,7 +2,7 @@ const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
 const fs = require("fs");
-const PORT = process.env.PORT || 5000;
+const PORT = 3000;
 const { generateHTMLPage, generateDiv } = require("./pageify");
 
 app.use(
@@ -31,4 +31,4 @@ const server = app.listen(PORT, function () {
   console.log(`App listening at port ${server.address().port}`);
 });
 
-exports.app = functions.https.onRequest(app);
+exports.api = functions.https.onRequest(app);
