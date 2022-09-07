@@ -22,7 +22,7 @@ app.post("/", function (req, res) {
     resData = generateHTMLPage(markDownData, themeData, title);
   else if (typeData === "div") resData = generateDiv(markDownData, themeData);
   console.log(req.body.theme);
-  // fs.writeFileSync('htmlfile.html', resData);
+  fs.writeFileSync("test.html", resData);
   res.send(resData);
 });
 
