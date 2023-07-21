@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const fs = require("fs");
+var cors = require('cors')
 const PORT = process.env.PORT || 5000;
 const { generateHTMLPage, generateDiv } = require("./pageify");
 
@@ -9,6 +10,8 @@ app.use(
     extended: false,
   })
 );
+
+app.use(cors());
 app.use(express.json());
 
 app.post("/", function (req, res) {
